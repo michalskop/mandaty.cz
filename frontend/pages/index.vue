@@ -11,7 +11,7 @@
 <script>
 import Table from '@/components/Table.vue'
 import t from "../texts/index.json"
-console.log(t)
+
 export default {
   name: 'about',
   data:  function () {

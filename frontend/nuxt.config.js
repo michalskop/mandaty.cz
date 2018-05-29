@@ -9,11 +9,14 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'frontend',
+    title: 'Mandáty.cz',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'Frontend for Mandáty.cz' }
+    ],
+    script: [
+        {src: "js/piwik.js"}
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
