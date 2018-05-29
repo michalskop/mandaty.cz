@@ -1,0 +1,40 @@
+path: /home/michal/project/mandaty.cz/api/create/
+db_path: ../
+sources:
+    -
+        name: pollsters
+        url: https://docs.google.com/spreadsheets/d/e/2PACX-1vRqrvEOS0hrrVfZQH-DjcO7lMCQZdxlmk60mn9OooHiSKKu-Xq_VI3gKuO6p9tId7jIvlY-7UtXQbVa/pub?gid=76644029&single=true&output=csv
+    -
+        name: topics
+        url: https://docs.google.com/spreadsheets/d/e/2PACX-1vRqrvEOS0hrrVfZQH-DjcO7lMCQZdxlmk60mn9OooHiSKKu-Xq_VI3gKuO6p9tId7jIvlY-7UtXQbVa/pub?gid=881803659&single=true&output=csv
+    -
+        name: polls
+        url: https://docs.google.com/spreadsheets/d/e/2PACX-1vRqrvEOS0hrrVfZQH-DjcO7lMCQZdxlmk60mn9OooHiSKKu-Xq_VI3gKuO6p9tId7jIvlY-7UtXQbVa/pub?gid=571191954&single=true&output=csv
+    -
+        name: questions
+        url: https://docs.google.com/spreadsheets/d/e/2PACX-1vRqrvEOS0hrrVfZQH-DjcO7lMCQZdxlmk60mn9OooHiSKKu-Xq_VI3gKuO6p9tId7jIvlY-7UtXQbVa/pub?gid=1589055004&single=true&output=csv
+    -
+        name: choices
+        url: https://docs.google.com/spreadsheets/d/e/2PACX-1vRqrvEOS0hrrVfZQH-DjcO7lMCQZdxlmk60mn9OooHiSKKu-Xq_VI3gKuO6p9tId7jIvlY-7UtXQbVa/pub?gid=57341014&single=true&output=csv
+    -
+        name: data
+        url: https://docs.google.com/spreadsheets/d/e/2PACX-1vRqrvEOS0hrrVfZQH-DjcO7lMCQZdxlmk60mn9OooHiSKKu-Xq_VI3gKuO6p9tId7jIvlY-7UtXQbVa/pub?gid=0&single=true&output=csv
+    -
+        name: colors
+        url: https://raw.githubusercontent.com/michalskop/political_parties/master/cz/parties.csv
+keys:
+    url: https://docs.google.com/spreadsheets/d/e/2PACX-1vRqrvEOS0hrrVfZQH-DjcO7lMCQZdxlmk60mn9OooHiSKKu-Xq_VI3gKuO6p9tId7jIvlY-7UtXQbVa/pub?gid=2120895485&single=true&output=csv
+    foreign:
+        -
+            table:
+                name: colors
+                column: abbreviation
+            foreign:
+                name: choices
+                column: id
+exclude:
+    - done_by
+    - notes
+last_election_date: '2017-10-19'
+election_topic_id: 'volby psp'
+app_data_path: ../frontend/static/data/
