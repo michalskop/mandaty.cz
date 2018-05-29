@@ -1,0 +1,2 @@
+# mandaty.cz
+Mandáty.cz
