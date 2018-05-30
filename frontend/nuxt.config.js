@@ -16,12 +16,12 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'Frontend for Mandáty.cz' }
     ],
     script: [
-        {src: "js/piwik.js"}
+        {src: "/js/piwik.js"}
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css'},
-      { rel: 'stylesheet', href: 'http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css'}
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.svg' },
+      { rel: 'stylesheet', href: 'https://stackpath.bootstrapcdn.com/bootswatch/4.1.1/united/bootstrap.min.css'},
+      { rel: 'stylesheet', href: 'https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css'}
     ]
   },
   /*

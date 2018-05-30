@@ -1,15 +1,21 @@
 <template>
-  <div class="about container">
-    <h1>{{ t['title'] }}</h1>
-    <no-ssr>
-        <!-- <test-chart></test-chart> -->
-        <history-chart></history-chart>
-    </no-ssr>
-    <Table></Table>
+  <div>
+    <div class="container">
+        <h1>{{ t['title'] }} <small><small>{{ t['subtitle'] }}</small></small></h1>
+        <no-ssr>
+            <!-- <test-chart></test-chart> -->
+            <history-chart></history-chart>
+        </no-ssr>
+        <Table></Table>
+        <Darujme></Darujme>
+    </div>
+    <Footer></Footer>
   </div>
 </template>
 <script>
 import Table from '@/components/Table.vue'
+import Darujme from '@/components/Darujme.vue'
+import Footer from '@/components/Footer.vue'
 import t from "../texts/index.json"
 
 export default {
@@ -21,7 +27,9 @@ export default {
   },
   components: {
       'history-chart': () => import('@/components/HistoryChart.vue'),
-      Table
+      Table,
+      Darujme,
+      Footer
   }
 }
 </script>
