@@ -2,5 +2,5 @@
     "election_model": "Volební model",
     "election_models": "Volební modely",
     "date_of_poll": "Datum průzkůmu",
-    "info": "Klouzavé průměry"
+    "info": "Klouzavé průměry. Kliknutím na legendu lze strany přidávat a odebírat z grafu."
 }
