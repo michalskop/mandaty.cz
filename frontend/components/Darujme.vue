@@ -33,7 +33,7 @@ export default {
             return response.json()
         })
         .then(function (response) {
-            $this.$data.supporters = response
+            $this.$data.supporters = response.reverse()
         })
     }
 }
