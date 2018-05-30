@@ -1,5 +1,5 @@
 path: /home/michal/project/mandaty.cz/api/create/
-db_path: ../
+db_path: ../dist/
 sources:
     -
         name: pollsters

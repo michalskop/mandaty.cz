@@ -1,0 +1,10 @@
+[Unit]
+Description=datasette api.mandaty.cz
+After=network.target
+
+[Service]
+WorkingDirectory=/home/projects/api.mandaty.cz
+ExecStart=/usr/local/bin/datasette -p 8001 /home/projects/api.mandaty.cz/data.sqlite
+
+[Install]
+WantedBy=multi-user.target

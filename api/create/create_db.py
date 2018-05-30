@@ -14,6 +14,7 @@ settings = yaml.safe_load(open(path + "settings.yaml"))
 conn = sqlite3.connect(settings['path'] + settings['db_path'] + "data.sqlite")
 curs = conn.cursor()
 
+
 # sql to create table
 # https://sqlite.org/foreignkeys.html
 def create_create(name, arr, fkeys):
@@ -25,10 +26,12 @@ def create_create(name, arr, fkeys):
         fkstring = ', ' + fkstring
     return "CREATE TABLE " + name + "(" + ','.join(arr) + fkstring + ");"
 
+
 # sql to add unique contraints
 # http://www.sqlite.org/lang_createtable.html
 def create_unique(name, arr):
     return "CREATE UNIQUE INDEX " + name + ''.join(arr) + " ON " + name + "(" + ','.join(arr) + ");"
+
 
 # prepare foreign keys
 fkeys = {}
