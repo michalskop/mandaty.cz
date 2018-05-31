@@ -1,9 +1,11 @@
 <template>
-    <div>
+    <div class="mt-2">
+        <h2>{{ t['election_models'] }} <small>{{ t['moving_averages'] }}</small></h2>
         <div id="ma-plot" style="width:920px;height:600px;"></div>
         <div class="alert alert-info">
             <i class="fa fa-info-circle"></i> {{ t['info'] }}
         </div>
+        <hr />
     </div>
 </template>
 <script>

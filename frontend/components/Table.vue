@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+        <h2>{{ t['election_models'] }}</h2>
         <div class="table-responsive">
             <table class="table table-striped table-hover table-condensed">
                 <thead>
@@ -25,6 +26,7 @@
         <div class="alert alert-info">
             <i class="fa fa-info-circle"></i> {{ t['info'] }}
         </div>
+        <hr />
     </div>
 </template>
 <script>
