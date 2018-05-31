@@ -1,7 +1,7 @@
 <template>
     <div class="mt-2">
         <h2>{{ t['election_models'] }} <small>{{ t['moving_averages'] }}</small></h2>
-        <div id="ma-plot" style="width:920px;height:600px;"></div>
+        <div id="ma-plot" :style="style"></div>
         <div class="alert alert-info">
             <i class="fa fa-info-circle"></i> {{ t['info'] }}
         </div>
@@ -23,10 +23,17 @@ export default {
             electionDate: ltma['dates'][0],
             dates: ltma['dates'],
             choices: ltma['choices'],
-            moving_averages: ltma['moving_averages']
+            moving_averages: ltma['moving_averages'],
+            style: {
+                width: 920,
+                height: 600
+            }
         }
     },
     methods: {
+        setSize: function () {
+            this.style.width = Math.min(920, screen.width)
+        },
         hex2rgba: function (str, a) {
             return str.replace('#','').split('').reduce((r,c,i,{length: l},j,n)=>(j=parseInt(i*3/l),n=parseInt(c,16),r[j]=(l==3?n:r[j])*16+n,r),[0,0,0,a||1])
         },
@@ -185,7 +192,13 @@ export default {
     },
     mounted() {
         this.drawChart()
+        this.setSize()
+        // window.addEventListener('resize', this.setSize)
     }
+    // ,
+    // beforeDestroy() {
+    //     window.removeEventListener('resize', this.setSize)
+    // }
     // var
 
 
