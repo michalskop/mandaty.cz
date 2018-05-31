@@ -16,7 +16,8 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'Frontend for Mandáty.cz' }
     ],
     script: [
-        {src: "/js/piwik.js"}
+        {src: "/js/piwik.js"},
+        {src: "https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"}
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.svg' },

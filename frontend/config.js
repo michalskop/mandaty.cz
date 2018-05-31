@@ -1,4 +1,4 @@
-API_URL = "http://127.0.0.1:8001/"
+API_URL = "https://api.mandaty.cz/"
 EXCLUDE_ELECTIONS = "volby"
 LOCALE = "cs"
 API_DARUJME = "https://projects.kohovolit.eu/api/?projectId=1200738"

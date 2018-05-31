@@ -1,7 +1,8 @@
 <template>
   <div>
+      <Header></Header>
     <div class="container">
-        <h1>{{ t['title'] }} <small><small>{{ t['subtitle'] }}</small></small></h1>
+        <!-- <h1>{{ t['title'] }} <small><small>{{ t['subtitle'] }}</small></small></h1> -->
         <no-ssr>
             <!-- <test-chart></test-chart> -->
             <history-chart></history-chart>
@@ -15,6 +16,7 @@
 <script>
 import Table from '@/components/Table.vue'
 import Darujme from '@/components/Darujme.vue'
+import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
 import t from "../texts/index.json"
 
@@ -29,6 +31,7 @@ export default {
       'history-chart': () => import('@/components/HistoryChart.vue'),
       Table,
       Darujme,
+      Header,
       Footer
   }
 }

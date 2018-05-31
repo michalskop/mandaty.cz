@@ -22,7 +22,8 @@ export default {
     data: function () {
         return {
             t,
-            supporters: []
+            supporters: [],
+            url_darujme: ''
         }
     },
     mounted () {
