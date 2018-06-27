@@ -3,6 +3,7 @@
       <Header></Header>
     <div class="container">
         <!-- <h1>{{ t['title'] }} <small><small>{{ t['subtitle'] }}</small></small></h1> -->
+        <Seats></Seats>
         <no-ssr>
             <!-- <test-chart></test-chart> -->
             <history-chart></history-chart>
@@ -14,6 +15,7 @@
   </div>
 </template>
 <script>
+import Seats from '@/components/Seats.vue'
 import Table from '@/components/Table.vue'
 import Darujme from '@/components/Darujme.vue'
 import Header from '@/components/Header.vue'
@@ -29,6 +31,7 @@ export default {
   },
   components: {
       'history-chart': () => import('@/components/HistoryChart.vue'),
+      Seats,
       Table,
       Darujme,
       Header,

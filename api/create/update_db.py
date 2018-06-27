@@ -8,7 +8,7 @@ import requests
 import sqlite3
 import yaml
 
-path = "/home/michal/project/pollster.eu/dev/datasette/create/"
+path = "/home/michal/project/mandaty.cz/api/create/"
 
 settings = yaml.safe_load(open(path + "settings.yaml"))
 
@@ -46,3 +46,8 @@ for source in settings['sources']:
 
 conn.commit()
 conn.close()
+
+# query ="UPDATE polls SET end_date='2018-05-24' WHERE end_date='2018-05'"
+# curs.execute(query)
+# conn.commit()
+# conn.close()

@@ -5,7 +5,7 @@ import json
 import sqlite3
 import yaml
 
-path = "/home/michal/project/pollster.eu/dev/datasette/create/"
+path = "/home/michal/project/mandaty.cz/api/create/"
 
 settings = yaml.safe_load(open(path + "settings.yaml"))
 
@@ -29,7 +29,7 @@ for key in keys:
 
 selected_parties = []
 for row in rows:
-    if (row[name2column['value']] > 0.05  or (row[name2column['value']] > 0.01 and row[name2column['topic_id']] == settings['election_topic_id'])) and row[name2column['choice_abbreviation']] not in selected_parties and row[name2column['choice_abbreviation']] is not None:
+    if (row[name2column['value']] > 0.05 or (row[name2column['value']] > 0.01 and row[name2column['topic_id']] == settings['election_topic_id'])) and row[name2column['choice_abbreviation']] not in selected_parties and row[name2column['choice_abbreviation']] is not None:
         selected_parties.append(row[name2column['choice_abbreviation']])
 
 data = []
@@ -39,7 +39,6 @@ for row in rows:
         for key in keys:
             item[key] = row[name2column[key]]
         data.append(item)
-
 
 
 data_obj = {}
@@ -52,9 +51,8 @@ for row in data:
 
 
 # calculate moving averages
-
 def fromisoformat(s):
-    return datetime.datetime.strptime(s,'%Y-%m-%d')
+    return datetime.datetime.strptime(s, '%Y-%m-%d')
 
 
 results = []
@@ -73,8 +71,8 @@ for k in data_obj:
         res['value'] = value / w
         results.append(res)
 
-# insert into db
 
+# insert into db
 def insert(name, keys):
     li = ['?'] * len(keys)
     return "INSERT INTO " + name + "(" + ','.join(keys) + ") VALUES (" + ','.join(li) + ");"
@@ -89,8 +87,6 @@ for result in results:
     except Exception:
         nothing = None
 conn.commit()
-
-
 
 
 # prepare file
@@ -163,7 +159,7 @@ for row in rows:
         dates.append(row[k2c['poll_end_date']])
     try:
         parties[row[k2c['choice_id']]]
-    except:
+    except Exception:
         parties[row[k2c['choice_id']]] = {
             'name': row[k2c['choice_abbreviation']],
             'color': row[k2c['color_color']]
@@ -172,7 +168,7 @@ data['dates'] = dates
 moving_averages = copy.deepcopy(parties)
 for k in parties:
     parties[k]['data'] = [''] * len(polls)
-    moving_averages[k]['data']  = [''] * len(polls)
+    moving_averages[k]['data'] = [''] * len(polls)
 
 for row in rows:
     i = polls[row[k2c['pollster_id']] + row[k2c['poll_identifier']]]

@@ -60,7 +60,7 @@
                 }
                 var k = 0
                 for (var i = 0; i < polls.length; i++) {
-                    this.$data.polls[i]['poll_formatted_date'] = new Date(polls[i]['poll_published_date']).toLocaleDateString()
+                    this.$data.polls[i]['poll_formatted_date'] = new Date(polls[i]['poll_published_date']).toLocaleDateString(LOCALE)
                     this.$data.table.push([])
                     if(!(polls[i]['pollster_id'] in this.$data.poll2row)) {
                         this.$data.poll2row[polls[i]['pollster_id']] = {}

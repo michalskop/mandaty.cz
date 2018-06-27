@@ -4,7 +4,7 @@ import json
 import sqlite3
 import yaml
 
-path = "/home/michal/project/pollster.eu/dev/datasette/create/"
+path = "/home/michal/project/mandaty.cz/api/create/"
 
 settings = yaml.safe_load(open(path + "settings.yaml"))
 
