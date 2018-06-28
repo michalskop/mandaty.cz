@@ -32,6 +32,7 @@
         <div class="alert alert-info">
             <i class="fa fa-info-circle"></i>&nbsp;<span v-html="t['info']"></span>
         </div>
+        <hr />
     </div>
 </template>
 

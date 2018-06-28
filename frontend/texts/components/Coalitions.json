@@ -1,0 +1,8 @@
+{
+    "header": "Kdo by měl dostatek mandátů na vládu?",
+    "description": "Jakou by měly některé zvažované koalice šanci získat 101 nebo více mandátů, čímž by měly možnost podpory většinové vlády?",
+    "chance": "šance",
+    "seats": "mandátů",
+    "chance_to_majority": "šance na majoritu",
+    "info": "Střední odhad počtu mandátů je založen na stejném výpočtu jako v sekci <strong>Počet mandátů</strong>. <br/><small>Pozn.: Vzhledem k systému voleb po krajích nemusí střední odhad počtu mandátů koalice být jen prostý součet hodnot u jednotlivých stran.</small>"
+}
