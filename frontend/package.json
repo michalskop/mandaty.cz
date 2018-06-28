@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "version": "1.0.0",
-  "description": "Frontend for Mandáty.cz",
+  "description": "Mandáty.cz - váš prst na tepu doby",
   "author": "Michal Skop <michal.skop@kohovolit.eu>",
   "private": true,
   "scripts": {
@@ -15,7 +15,6 @@
   "dependencies": {
     "bootstrap": "^4.1.1",
     "ify-loader": "^1.1.0",
-    "moment": "^2.22.2",
     "nuxt": "^1.0.0",
     "plotly.js": "^1.38.0"
   },
