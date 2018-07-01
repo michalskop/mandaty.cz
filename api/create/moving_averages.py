@@ -73,9 +73,10 @@ for k in data_obj:
 
 
 # insert into db
-def insert(name, keys):
+# hack, see also https://stackoverflow.com/questions/418898/sqlite-upsert-not-insert-or-replace#4330694
+def insert_or_replace(name, keys):
     li = ['?'] * len(keys)
-    return "INSERT INTO " + name + "(" + ','.join(keys) + ") VALUES (" + ','.join(li) + ");"
+    return "INSERT OR REPLACE INTO " + name + "(" + ','.join(keys) + ") VALUES (" + ','.join(li) + ");"
 
 
 for result in results:
@@ -83,7 +84,7 @@ for result in results:
     for k in keys:
         items.append(result[k])
     try:
-        curs.execute(insert('last_term_moving_averages', keys), items)
+        curs.execute(insert_or_replace('last_term_moving_averages', keys), items)
     except Exception:
         nothing = None
 conn.commit()

@@ -6,9 +6,10 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th></th>
+                        <th>{{ t['published_date'] }}</th>
                         <th v-for="(choice, index) in choices" :key="index">
-                            <span :style="color(choice.color_color)">{{choice.choice_abbreviation}}</span>
+                            <span v-if="!choice.choice_abbreviation" style="color:#888;">{{ t['others'] }}</span>
+                            <span v-else :style="color(choice.color_color)">{{choice.choice_abbreviation}}</span>
                         </th>
                     </tr>
                 </thead>
@@ -73,14 +74,16 @@
                         this.$data.table[i].push('')
                     }
                 }
+                // console.log(this.$data)
                 for (var i = 0; i < rows.length; i++) {
                     var row = rows[i]
-                    // console.log()
+                    // console.log("row:", row)
                     var r = this.$data.poll2row[row['pollster_id']][row['poll_identifier']]
                     var c = this.$data.choice2column[row['choice_id']]
                     // console.log(r,c, row)
                     this.$data.table[r][c] = Math.round(parseFloat(row['value']) * 1000) / 10
                 }
+                // console.log(this.$data.choices)
                 return rows
             },
             getData: function () {
