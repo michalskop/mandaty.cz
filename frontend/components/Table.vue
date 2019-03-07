@@ -1,6 +1,9 @@
 <template>
     <div class="container">
         <h2>{{ t['election_models'] }}</h2>
+        <div class="m-2">
+            <i class="fa fa-filter"></i> {{ t.filter }}: <span v-for="pollster in pollsters" :key="pollster.id"><button type="button" class="btn btn-sm m-1" @click="filterPolls(pollster)" :class="[{ 'btn-info': pollster.active }, {'btn-outline-info': !pollster.active}]">{{ pollster.abbreviation }}</button></span>
+        </div>
         <div class="table-responsive">
             <table class="table table-striped table-hover table-condensed">
                 <thead>
@@ -14,7 +17,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(poll, i) in polls" :key="i">
+                    <tr v-for="(poll, i) in polls" :key="i" v-if="pollsters_active[poll['pollster_id']]">
                         <th>{{poll['pollster_abbreviation']}}</th>
                         <td>{{poll['poll_formatted_date']}}</td>
                         <td v-for="(value, index) in table[i]" :key="index">
@@ -45,12 +48,17 @@
                 table: [],
                 choice2column: {},
                 poll2row: {},
-                choices: []
+                choices: [],
+                pollsters: [],
+                pollsters_active: {}
             }
         },
         methods: {
             prepareTable: function (polls, rows) {
-                var j = 0
+                let j = 0
+                this.$data.table = []
+                this.$data.poll2row = {}
+                this.$data.choice2column = {}
                 for (var i = 0; i < rows.length; i++) {
                     var row = rows[i]
                     if (!(row['choice_id'] in this.$data.choice2column) && (!(row['pollster_id'] == EXCLUDE_ELECTIONS))) {
@@ -61,7 +69,7 @@
                 }
                 var k = 0
                 for (var i = 0; i < polls.length; i++) {
-                    this.$data.polls[i]['poll_formatted_date'] = new Date(polls[i]['poll_published_date']).toLocaleDateString(LOCALE)
+                    polls[i]['poll_formatted_date'] = new Date(polls[i]['poll_published_date']).toLocaleDateString(LOCALE)
                     this.$data.table.push([])
                     if(!(polls[i]['pollster_id'] in this.$data.poll2row)) {
                         this.$data.poll2row[polls[i]['pollster_id']] = {}
@@ -70,7 +78,7 @@
                         this.$data.poll2row[polls[i]['pollster_id']][polls[i]['poll_identifier']] = k
                         k++
                     }
-                    for (var j = 0; j < this.choices.length; j++) {
+                    for (var jj = 0; j < this.$data.choices.length; jj++) {
                         this.$data.table[i].push('')
                     }
                 }
@@ -83,7 +91,7 @@
                     // console.log(r,c, row)
                     this.$data.table[r][c] = Math.round(parseFloat(row['value']) * 1000) / 10
                 }
-                // console.log(this.$data.choices)
+                // console.log(this.$data.table)
                 return rows
             },
             getData: function () {
@@ -91,6 +99,7 @@
             },
             getPolls: function () {
                 this.$data.polls = lastTermPolls['rows']
+                this.getPollsters()
                 this.getData()
             },
             color: function (c) {
@@ -99,6 +108,29 @@
                 } else {
                     return "color:" + c + ";"
                 }
+            },
+            getPollsters: function () {
+                // get pollsters (to enable filtering)
+                let pollster_ids = []
+                const $this = this
+                this.$data.polls.forEach(function (poll) {
+                    if (!pollster_ids.includes(poll.pollster_id)) {
+                        $this.pollsters.push({
+                            "id": poll.pollster_id,
+                            "abbreviation": poll.pollster_abbreviation,
+                            "name": poll.pollster_name,
+                            "active": true
+                        })
+                        $this.pollsters_active[poll.pollster_id] = true
+                        pollster_ids.push(poll.pollster_id)
+                    }
+                    $this.pollsters.sort((a, b) => a.abbreviation.localeCompare(b.abbreviation))
+                })
+            },
+            filterPolls: function (pollster) {
+                // switch active in pollsters (for filtering)
+                pollster.active = !pollster.active
+                this.pollsters_active[pollster.id] = !this.pollsters_active[pollster.id]
             }
         },
         mounted () {
@@ -109,3 +141,8 @@
         }
     }
 </script>
+<style scoped>
+.filter {
+
+}
+</style>

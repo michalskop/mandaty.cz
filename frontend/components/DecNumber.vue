@@ -14,7 +14,7 @@
             }
         },
         mounted () {
-            if (this.decNumber != '') {
+            if (this.decNumber != '' && this.decNumber != null) {
                 this.floor = Math.floor(this.decNumber)
             }
             this.decimal = Math.round(10 * (this.decNumber - this.floor))
