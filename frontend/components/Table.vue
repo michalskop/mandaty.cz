@@ -78,14 +78,15 @@
                         this.$data.poll2row[polls[i]['pollster_id']][polls[i]['poll_identifier']] = k
                         k++
                     }
-                    for (var jj = 0; j < this.$data.choices.length; jj++) {
+                    for (var jj = 0; jj < this.$data.choices.length; jj++) {
                         this.$data.table[i].push('')
                     }
                 }
-                // console.log(this.$data)
+                // console.log(this.$data.table)
                 for (var i = 0; i < rows.length; i++) {
                     var row = rows[i]
                     // console.log("row:", row)
+                    // console.log(this.$data.choice2column)
                     var r = this.$data.poll2row[row['pollster_id']][row['poll_identifier']]
                     var c = this.$data.choice2column[row['choice_id']]
                     // console.log(r,c, row)
