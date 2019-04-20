@@ -26,7 +26,7 @@ export default {
             moving_averages: ltma['moving_averages'],
             style: {
                 width: 920,
-                height: 600
+                height: 920
             }
         }
     },
