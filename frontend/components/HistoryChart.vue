@@ -25,7 +25,7 @@ export default {
             choices: ltma['choices'],
             moving_averages: ltma['moving_averages'],
             style: {
-                width: 920,
+                width: 1100,
                 height: 920
             }
         }
@@ -50,7 +50,7 @@ export default {
                     legendgroup: obj.name,
                     showlegend: false,
                     marker: {
-                        size: 20,
+                        size: 30,
                         color: "rgba(" + $this.hex2rgba(obj.color, 1).join(',') + ")",
                         // border: {
                         //     color: //"rgba(" + hex2rgba(obj.color).join(',') + ")",
@@ -68,6 +68,15 @@ export default {
                     line: {
                         color: "rgba(" + $this.hex2rgba(obj.color).join(',') + ")",
                         shape: "spline"
+                    },
+                    marker: {
+                        size: 15,
+                        opacity: 0.5,
+                        // color: $this.hex2rgba(obj.color,.5).join(',') + ")",
+                        // line: {
+                        //     color: "rgba(" + $this.hex2rgba(obj.color,1).join(',') + ")",
+                        //     width: 5
+                        // }
                     },
                     showlegend: false
                 };
