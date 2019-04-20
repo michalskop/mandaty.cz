@@ -194,8 +194,8 @@ export default {
         }
     },
     mounted() {
-        this.drawChart()
         this.setSize()
+        this.drawChart()
         // window.addEventListener('resize', this.setSize)
     }
     // ,
