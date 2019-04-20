@@ -51,11 +51,7 @@ export default {
                     showlegend: false,
                     marker: {
                         size: 30,
-                        color: "rgba(" + $this.hex2rgba(obj.color, 1).join(',') + ")",
-                        // border: {
-                        //     color: //"rgba(" + hex2rgba(obj.color).join(',') + ")",
-                        //     arearatio: 1
-                        // }
+                        color: "rgba(" + $this.hex2rgba(obj.color, 1).join(',') + ")"
                     }
                 }
                 return d
@@ -71,12 +67,7 @@ export default {
                     },
                     marker: {
                         size: 15,
-                        opacity: 0.5,
-                        // color: $this.hex2rgba(obj.color,.5).join(',') + ")",
-                        // line: {
-                        //     color: "rgba(" + $this.hex2rgba(obj.color,1).join(',') + ")",
-                        //     width: 5
-                        // }
+                        opacity: 0.5
                     },
                     showlegend: false
                 };
