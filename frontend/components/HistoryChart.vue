@@ -32,8 +32,8 @@ export default {
     },
     methods: {
         setSize: function () {
-            this.style.width = Math.min(this,width, screen.width)
-            this.style.height = Math.min(this.height, screen.height)
+            this.style.width = Math.min(this.style['width'], screen.width)
+            this.style.height = Math.min(this.style['height'], screen.height)
         },
         hex2rgba: function (str, a) {
             return str.replace('#','').split('').reduce((r,c,i,{length: l},j,n)=>(j=parseInt(i*3/l),n=parseInt(c,16),r[j]=(l==3?n:r[j])*16+n,r),[0,0,0,a||1])
