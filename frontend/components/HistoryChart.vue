@@ -179,7 +179,9 @@ export default {
                 showlegend: true,
                 legend: {
                     traceorder: 'reversed'
-                }
+                },
+                width: this.style['width'],
+                height: this.style['height']
             };
 
             var config = {
