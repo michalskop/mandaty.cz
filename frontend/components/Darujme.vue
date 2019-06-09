@@ -4,12 +4,12 @@
             <h1 class="p-4"><i class="fa fa-heart text-danger"></i> <small> {{ t['supported'] }}</small>
             </h1>
             <div class="d-flex flex-row flex-wrap justify-content-around">
-                <div v-for="(supporter, index) in supporters" :key="index" class="card p-2 m-2 bg-warning">
-                    <h4 class="text-dark">{{ supporter['given_name'] }} {{ supporter['family_name'] }}</h4>
+                <div v-for="(supporter, index) in supporters" :key="index" class="card p-2 m-2" :class="bgClass(supporter.date)">
+                    <h4 :class="textClass(supporter.date)">{{ supporter['given_name'] }} {{ supporter['family_name'] }}</h4>
                 </div>
             </div>
             <div class="mt-5">
-                <a :href="url_darujme" target="_blank"><h4>{{ t['support'] }}</h4></a>
+                <a :href="url_darujme" target="_blank"><h4  class="outlink">{{ t['support'] }}</h4></a>
             </div>
         </div>
     </div>
@@ -36,6 +36,46 @@ export default {
         .then(function (response) {
             $this.$data.supporters = response.reverse()
         })
+    },
+    methods: {
+        diffDays: function (a, b) {
+            return Math.ceil(Math.abs(a - b) / (1000 * 3600 * 24))
+        },
+        bgClass: function(isoDate) {
+            var aa = Date.parse(isoDate)
+            var b = new Date()
+            var bb = b.getTime()
+            if (this.diffDays(aa, bb) > 540) {
+                return "bg-light"
+            } else {
+                if (this.diffDays(aa, bb) > 270) {
+                    return "bg-secondary"
+                } else {
+                    return "bg-warning"
+                }
+            }
+        }
+        ,
+        textClass: function(isoDate) {
+            var aa = Date.parse(isoDate)
+            var b = new Date()
+            var bb = b.getTime()
+            if (this.diffDays(aa, bb) > 540) {
+                return "text-secondary"
+            } else {
+                if (this.diffDays(aa, bb) > 270) {
+                    return "text-light"
+                } else {
+                    return "text-dark"
+                }
+            }
+        }
     }
 }
 </script>
+
+<style scoped>
+    .outlink {
+        text-decoration: underline;
+    }
+</style>
