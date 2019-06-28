@@ -16,7 +16,7 @@ conn = sqlite3.connect(settings['path'] + settings['db_path'] + "data.sqlite")
 curs = conn.cursor()
 
 
-def insert(name, keys):
+def _insert(name, keys):
     li = ['?'] * len(keys)
     return "INSERT INTO " + name + "(" + ','.join(keys) + ") VALUES (" + ','.join(li) + ");"
 
@@ -38,8 +38,8 @@ for source in settings['sources']:
                     else:
                         keys.append(k)
             try:
-                curs.execute(insert(source['name'], keys), data)
-            except Exception as e:
+                curs.execute(_insert(source['name'], keys), data)
+            except Exception:
                 # print(e)
                 # print(source['name'], data)
                 nothing = None

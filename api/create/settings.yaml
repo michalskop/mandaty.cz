@@ -35,6 +35,9 @@ keys:
 exclude:
     - done_by
     - notes
+    - other_names
+    - psp_2017
+    - euroelections_2019
 last_election_date: '2017-10-19'
 election_topic_id: 'volby psp'
 app_data_path: ../../frontend/static/data/
