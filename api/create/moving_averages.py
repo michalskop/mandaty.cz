@@ -29,7 +29,7 @@ for key in keys:
 
 selected_parties = []
 for row in rows:
-    if (row[name2column['value']] > 0.05 or (row[name2column['value']] > 0.01 and row[name2column['topic_id']] == settings['election_topic_id'])) and row[name2column['choice_abbreviation']] not in selected_parties and row[name2column['choice_abbreviation']] is not None:
+    if (row[name2column['value']] > 0.025 or (row[name2column['value']] > 0.01 and row[name2column['topic_id']] == settings['election_topic_id'])) and row[name2column['choice_abbreviation']] not in selected_parties and row[name2column['choice_abbreviation']] is not None:
         selected_parties.append(row[name2column['choice_abbreviation']])
 
 data = []
