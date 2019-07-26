@@ -11,8 +11,11 @@
 <script>
 
 import Plotly from 'plotly.js/lib/core'
+import locale from 'plotly.js-locales/cs'
 import t from "../texts/components/HistoryChart.json"
 import ltma from '../static/data/last_term_moving_averages.json'
+
+Plotly.register(locale)
 
 export default {
     name: 'HistoryChart',
@@ -142,7 +145,7 @@ export default {
             var limit = [{
                 x: [this.electionDate, data[0]['x'][data[0]['x'].length - 1]],
                 y: [5, 5],
-                name: '5% hranice',
+                name: this.t['5_percent'],
                 mode: 'lines',
                 // showlegend: false,
                 hoverinfo: 'skip',
@@ -181,8 +184,65 @@ export default {
                     traceorder: 'reversed'
                 },
                 width: this.style['width'],
-                height: this.style['height']
+                height: this.style['height'],
+                annotations: []
             };
+
+            // right annotations
+            // not overalying
+            var totalMax = 0;
+            for (var i = 0; i < this.moving_averages.length; i++) {
+                for (var j = 0; j < $this.moving_averages[i].data.length; j++) {
+                    if ($this.moving_averages[i].data[j] > totalMax) {
+                        totalMax = $this.moving_averages[i].data[j]
+                    }
+                }
+            }
+            var yToPx = this.style.height * 0.8 / (totalMax * 100 * 1.1);
+            var minDist = 16 * 1.25 / yToPx;
+            // heights
+            var minHeight = function (prev, val) {
+                if (prev + minDist > val) {
+                    return prev + minDist
+                }
+                return val
+            }
+            var annotationHeights = [];
+            var prevHeight = 0;
+            for (var i = 0; i < this.moving_averages.length; i++) {
+                var lastD = $this.moving_averages[i].data.length - 1;
+                var lastValue = $this.moving_averages[i].data[lastD];
+                if (lastValue > 0) {
+                    var thisHeight = minHeight(prevHeight, $this.moving_averages[i].data[lastD] * 100)
+                    annotationHeights.push(thisHeight)
+                    prevHeight = thisHeight
+                }
+            }
+            // add annotations
+            var j = 0;
+            for (var i = 0; i < this.moving_averages.length; i++) {
+                var lastD = $this.moving_averages[i].data.length - 1;
+                var lastValue = $this.moving_averages[i].data[lastD];
+                if (lastValue > 0) {
+                    var annotation = {
+                        xref: 'paper',
+                        x: 0.95,
+                        y: annotationHeights[j],
+                        xanchor: 'left',
+                        yanchor: 'middle',
+                        text: Math.round($this.moving_averages[i].data[lastD] * 1000)/10 + "%",
+                        showarrow: false,
+                        font: {
+                            color: $this.moving_averages[i].color,
+                            weight: 'bold',
+                            size: 16
+                        }
+                    }
+                    layout.annotations.push(annotation)
+                    j++
+                }
+            }
+
 
             var config = {
                 displaylogo: false,

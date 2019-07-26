@@ -3,5 +3,6 @@
     "election_models": "Volební modely",
     "moving_averages": "klouzavé průměry",
     "date_of_poll": "Datum průzkumu",
-    "info": "Klouzavé průměry. Kliknutím na legendu lze strany přidávat a odebírat z grafu."
+    "info": "Klouzavé průměry. Kliknutím na legendu lze strany přidávat a odebírat z grafu.",
+    "5_percent": "5% hranice"
 }
