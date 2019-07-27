@@ -77,7 +77,14 @@ export default {
                 d['legendgroup'] = obj.name;
                 d['name'] = obj.name;
                 d['x'] = $this.dates.slice(1, $this.dates.length)
-                d['y'] = obj.data.slice(1, obj.data.length).map(v => v * 100);
+                // d['y'] = obj.data.slice(1, obj.data.length).map(v => v * 100);
+                d['y'] = obj.data.slice(1, obj.data.length).map(function (v) {
+                    if (v === '') {
+                        return 'nan';
+                    } else {
+                        return v * 100;
+                    }
+                });
                 return d;
             });
 
@@ -85,6 +92,7 @@ export default {
                 var d = {
                     mode: 'lines',
                     type: 'scatter',
+                    connectgaps: true,
                     line: {
                         color: "rgba(" + $this.hex2rgba(obj.color).join(',') + ")",
                         shape: "spline"
@@ -95,6 +103,13 @@ export default {
                 d['name'] = obj.name;
                 d['x'] = $this.dates;
                 d['y'] = obj.data.map(v => v * 100);
+                d['y'] = obj.data.map(function (v) {
+                    if (v === '') {
+                        return 'nan';
+                    } else {
+                        return v * 100;
+                    }
+                });
                 return d;
             });
 
@@ -115,8 +130,14 @@ export default {
                 d['name'] = obj.name;
                 d['x'] = $this.dates;
                 d['y'] = $this.moving_averages[i].data.map(
-                    (v, index) => (index > 0) * ((v * 750 + Math.sqrt(v * 750 * (1 - v)) * 1.95 * 1.5) / 750 * 100) + (index == 0) * v * 100
-                )
+                    function (v, index) {
+                        if (v === '') {
+                            return 'nan';
+                        } else {
+                            return (index > 0) * ((v * 750 + Math.sqrt(v * 750 * (1 - v)) * 1.95 * 1.5) / 750 * 100) + (index == 0) * v * 100;
+                        }
+                    }
+                );
                 d['fillcolor'] = "rgba(" + $this.hex2rgba(obj.color, 0.05).join(',') + ")";
                 return d;
             });
@@ -137,7 +158,13 @@ export default {
                 d['name'] = obj.name;
                 d['x'] = $this.dates;
                 d['y'] = $this.moving_averages[i].data.map(
-                    (v, index) => (index > 0) * (Math.max((v * 750 - Math.sqrt(v * 750 * (1 - v)) * 1.95 * 1.5) / 750 * 100, 0)) + (index == 0) * v * 100
+                    function (v, index) {
+                        if (v === '') {
+                            return 'nan';
+                        } else {
+                            return (index > 0) * (Math.max((v * 750 - Math.sqrt(v * 750 * (1 - v)) * 1.95 * 1.5) / 750 * 100, 0)) + (index == 0) * v * 100;
+                        }
+                    }
                 );
                 return d;
             });
