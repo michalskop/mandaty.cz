@@ -34,7 +34,9 @@ export default {
             return response.json()
         })
         .then(function (response) {
-            $this.$data.supporters = response.reverse()
+            $this.$data.supporters = response.reverse().filter( function (item) {
+                return item.last
+            })
         })
     },
     methods: {
