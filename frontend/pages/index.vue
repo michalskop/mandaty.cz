@@ -23,12 +23,25 @@ import Darujme from '@/components/Darujme.vue'
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
 import t from "../texts/index.json"
+import config from '../config.js'
 
 export default {
-  name: 'about',
+  name: 'index',
   data:  function () {
       return {
           t
+      }
+  },
+  head: function () {
+      return {
+          meta: [
+              {property: 'og:image', content: BASE_URL + this.t['og:image']},
+              {property: 'og:url', content: BASE_URL},
+              {property: 'og:type', content: 'website'},
+              {property: 'og:title', content: this.t['title']},
+              {property: 'og:description', content: this.t['og:description']},
+              {property: 'fb:app_id', content: FB_APP_ID}
+          ]
       }
   },
   components: {
