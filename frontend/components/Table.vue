@@ -9,7 +9,7 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th>{{ t['published_date'] }}</th>
+                        <th>{{ t['end_date'] }}</th>
                         <th v-for="(choice, index) in choices" :key="index">
                             <span v-if="!choice.choice_abbreviation" style="color:#888;">{{ t['others'] }}</span>
                             <span v-else :style="color(choice.color_color)">{{choice.choice_abbreviation}}</span>
@@ -69,7 +69,7 @@
                 }
                 var k = 0
                 for (var i = 0; i < polls.length; i++) {
-                    polls[i]['poll_formatted_date'] = new Date(polls[i]['poll_published_date']).toLocaleDateString(LOCALE)
+                    polls[i]['poll_formatted_date'] = new Date(polls[i]['poll_end_date']).toLocaleDateString(LOCALE)
                     this.$data.table.push([])
                     if(!(polls[i]['pollster_id'] in this.$data.poll2row)) {
                         this.$data.poll2row[polls[i]['pollster_id']] = {}
@@ -92,7 +92,8 @@
                     // console.log(r,c, row)
                     this.$data.table[r][c] = Math.round(parseFloat(row['value']) * 1000) / 10
                 }
-                // console.log(this.$data.table)
+                console.log(this.$data.table)
+                console.log(rows)
                 return rows
             },
             getData: function () {
