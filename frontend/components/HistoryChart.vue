@@ -49,7 +49,7 @@ export default {
                     mode: 'markers',
                     x: [$this.electionDate],
                     y: [obj.value * 100],
-                    name: "Volby: " + obj.name,
+                    name: $this.t['elections'] + ': ' + obj.name,
                     legendgroup: obj.name,
                     showlegend: false,
                     marker: {
@@ -102,7 +102,7 @@ export default {
                 d['legendgroup'] = obj.name;
                 d['name'] = obj.name;
                 d['x'] = $this.dates;
-                d['y'] = obj.data.map(v => v * 100);
+                // d['y'] = obj.data.map(v => v * 100);
                 d['y'] = obj.data.map(function (v) {
                     if (v === '') {
                         return 'nan';
@@ -112,6 +112,76 @@ export default {
                 });
                 return d;
             });
+
+            // Values of current estimates on the right
+            var currentEstimates = [];
+            // not overalying
+            var totalMax = 0;
+            for (var i = 0; i < this.moving_averages.length; i++) {
+                for (var j = 0; j < $this.moving_averages[i].data.length; j++) {
+                    if ($this.moving_averages[i].data[j] > totalMax) {
+                        totalMax = $this.moving_averages[i].data[j]
+                    }
+                }
+            }
+            var yToPx = this.style.height * 0.8 / (totalMax * 100 * 1.1); // 0.8 paper without border, 1.1 upper
+            var minDist = 16 * 1.25 / yToPx;    // font size * line height
+            // heights
+            var minHeight = function (prev, val) {
+                if (prev + minDist > val) {
+                    return prev + minDist
+                }
+                return val
+            }
+            var annotationHeights = [];
+            var prevHeight = 0;
+            for (var i = 0; i < this.moving_averages.length; i++) {
+                var lastD = $this.moving_averages[i].data.length - 1;
+                var lastValue = $this.moving_averages[i].data[lastD];
+                if (lastValue > 0) {
+                    var thisHeight = minHeight(prevHeight, $this.moving_averages[i].data[lastD] * 100)
+                    annotationHeights.push(thisHeight)
+                    prevHeight = thisHeight
+                }
+            }
+            var j = 0;
+            for (var i = 0; i < this.moving_averages.length; i++) {
+                var lastD = $this.moving_averages[i].data.length - 1;
+                var lastValue = $this.moving_averages[i].data[lastD];
+                if (lastValue > 0) {
+                    var item = {
+                        value: lastValue,
+                        height: annotationHeights[j],
+                        color: $this.moving_averages[i]['color'],
+                        name: $this.moving_averages[i]['name']
+                    }
+                    currentEstimates.push(
+                        item
+                    )
+                    j++;
+                }
+            }
+            var current = currentEstimates.map(function (obj,i) {
+                var d = {
+                    mode: 'text',
+                    type: 'scatter',
+                    showlegend: false,
+                    hoverinfo: 'skip',
+                    textposition: 'middle right',
+                    textfont : {
+                      family:'Arial',
+                      size: 16,
+                      // weight: 600,
+                      color: "rgba(" + $this.hex2rgba(obj.color).join(',') + ")"
+                    },
+                    legendgroup: obj.name,
+                    name: obj.name,
+                    x: [$this.dates[$this.dates.length -1]],
+                    y: [obj.height],
+                    text: "  " + Math.round(obj.value * 100) + "%"
+                }
+                return d;
+            })
 
             var upper = this.choices.map(function (obj, i) {
                 var d = {
@@ -194,6 +264,7 @@ export default {
             data = bounds.concat(data);
             data = elections.concat(data);
             data = limit.concat(data);
+            data = current.concat(data);
 
             var layout = {
                 xaxis: {
@@ -214,62 +285,6 @@ export default {
                 height: this.style['height'],
                 annotations: []
             };
-
-            // right annotations
-            // not overalying
-            var totalMax = 0;
-            for (var i = 0; i < this.moving_averages.length; i++) {
-                for (var j = 0; j < $this.moving_averages[i].data.length; j++) {
-                    if ($this.moving_averages[i].data[j] > totalMax) {
-                        totalMax = $this.moving_averages[i].data[j]
-                    }
-                }
-            }
-            var yToPx = this.style.height * 0.8 / (totalMax * 100 * 1.1);
-            var minDist = 16 * 1.25 / yToPx;
-            // heights
-            var minHeight = function (prev, val) {
-                if (prev + minDist > val) {
-                    return prev + minDist
-                }
-                return val
-            }
-            var annotationHeights = [];
-            var prevHeight = 0;
-            for (var i = 0; i < this.moving_averages.length; i++) {
-                var lastD = $this.moving_averages[i].data.length - 1;
-                var lastValue = $this.moving_averages[i].data[lastD];
-                if (lastValue > 0) {
-                    var thisHeight = minHeight(prevHeight, $this.moving_averages[i].data[lastD] * 100)
-                    annotationHeights.push(thisHeight)
-                    prevHeight = thisHeight
-                }
-            }
-            // add annotations
-            var j = 0;
-            for (var i = 0; i < this.moving_averages.length; i++) {
-                var lastD = $this.moving_averages[i].data.length - 1;
-                var lastValue = $this.moving_averages[i].data[lastD];
-                if (lastValue > 0) {
-                    var annotation = {
-                        xref: 'paper',
-                        x: 0.95,
-                        y: annotationHeights[j],
-                        xanchor: 'left',
-                        yanchor: 'middle',
-                        text: Math.round($this.moving_averages[i].data[lastD] * 1000)/10 + "%",
-                        showarrow: false,
-                        font: {
-                            color: $this.moving_averages[i].color,
-                            weight: 'bold',
-                            size: 16
-                        }
-                    }
-                    layout.annotations.push(annotation)
-                    j++
-                }
-            }
-
 
             var config = {
                 displaylogo: false,
