@@ -92,8 +92,8 @@
                     // console.log(r,c, row)
                     this.$data.table[r][c] = Math.round(parseFloat(row['value']) * 1000) / 10
                 }
-                console.log(this.$data.table)
-                console.log(rows)
+                // console.log(this.$data.table)
+                // console.log(rows)
                 return rows
             },
             getData: function () {
