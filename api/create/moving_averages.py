@@ -78,7 +78,7 @@ for k in data_obj:
 
 
 # def _ma_dates(interval=30):
-interval = 60
+interval = 90
 dates_interval = {
     "max": '1000-01-01',
     "min": '9999-01-01',

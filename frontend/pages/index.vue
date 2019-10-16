@@ -55,3 +55,8 @@ export default {
   }
 }
 </script>
+<style>
+    history-chart {
+        height: 920px;
+    }
+</style>

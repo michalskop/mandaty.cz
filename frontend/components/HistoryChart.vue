@@ -26,8 +26,8 @@ export default {
             electionDate: ltma['dates'][0],
             dates: ltma['dates'],
             choices: ltma['choices'],
-            moving_averages: ltma['moving_averages_60'],
-            dates_60: ltma['dates_60'],
+            moving_averages: ltma['moving_averages_90'],
+            dates_90: ltma['dates_90'],
             style: {
                 width: 1100,
                 height: 920
@@ -103,7 +103,7 @@ export default {
                 };
                 d['legendgroup'] = obj.name;
                 d['name'] = obj.name;
-                d['x'] = $this.dates_60;
+                d['x'] = $this.dates_90;
                 // d['y'] = obj.data.map(v => v * 100);
                 d['y'] = obj.data.map(function (v) {
                     if (v === '') {
@@ -200,7 +200,7 @@ export default {
                 };
                 d['legendgroup'] = obj.name;
                 d['name'] = obj.name;
-                d['x'] = $this.dates_60;
+                d['x'] = $this.dates_90;
                 d['y'] = $this.moving_averages[i].data.map(
                     function (v, index) {
                         if (v === '') {
@@ -228,7 +228,7 @@ export default {
                 };
                 d['legendgroup'] = obj.name;
                 d['name'] = obj.name;
-                d['x'] = $this.dates_60;
+                d['x'] = $this.dates_90;
                 d['y'] = $this.moving_averages[i].data.map(
                     function (v, index) {
                         if (v === '') {
