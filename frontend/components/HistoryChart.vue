@@ -71,7 +71,7 @@ export default {
                     },
                     marker: {
                         size: 15,
-                        opacity: 0.5
+                        opacity: 0.3
                     },
                     showlegend: false
                 };
@@ -96,7 +96,8 @@ export default {
                     connectgaps: true,
                     line: {
                         color: "rgba(" + $this.hex2rgba(obj.color).join(',') + ")",
-                        shape: "spline"
+                        shape: "spline",
+                        width: 5
                     },
                     hoverinfo: 'skip'
                 };
@@ -209,7 +210,7 @@ export default {
                         }
                     }
                 );
-                d['fillcolor'] = "rgba(" + $this.hex2rgba(obj.color, 0.05).join(',') + ")";
+                d['fillcolor'] = "rgba(" + $this.hex2rgba(obj.color, 0.03).join(',') + ")";
                 return d;
             });
 
