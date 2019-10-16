@@ -1,7 +1,8 @@
-# moving averages
+"""Moving averages."""
 import copy
 import datetime
 import json
+import math
 import sqlite3
 import yaml
 
@@ -50,9 +51,13 @@ for row in data:
     data_obj[row['choice_abbreviation']].append(row)
 
 
-# calculate moving averages
-def fromisoformat(s):
+# Calculate moving averages
+def _fromisoformat(s):
     return datetime.datetime.strptime(s, '%Y-%m-%d')
+
+
+def _toisoformat(s):
+    return datetime.datetime.strftime(s, '%Y-%m-%d')
 
 
 results = []
@@ -63,7 +68,7 @@ for k in data_obj:
         w = 0
         for it2 in items:
             if it2['poll_end_date'] <= it['poll_end_date']:
-                delta = fromisoformat(it['poll_end_date']) - fromisoformat(it2['poll_end_date'])
+                delta = _fromisoformat(it['poll_end_date']) - _fromisoformat(it2['poll_end_date'])
                 w += float(it2['pollster_score']) * (1 / 2) ** (delta.days / 30)
                 value += (1 / 2) ** (delta.days / 30) * float(it2['value']) * float(it2['pollster_score'])
         # print(i, w)
@@ -72,9 +77,60 @@ for k in data_obj:
         results.append(res)
 
 
-# insert into db
+# def _ma_dates(interval=30):
+interval = 60
+dates_interval = {
+    "max": '1000-01-01',
+    "min": '9999-01-01',
+    "dates": []
+}
+# get min and max
+for k in data_obj:
+    for row in data_obj[k]:
+        if row['poll_end_date'] < dates_interval['min']:
+            dates_interval['min'] = row['poll_end_date']
+        if row['poll_end_date'] > dates_interval['max']:
+            dates_interval['max'] = row['poll_end_date']
+# get other dates:
+delta = _fromisoformat(dates_interval['max']) - _fromisoformat(dates_interval['min'])
+n_intervals = math.floor(delta.days / interval)
+dates_interval['dates'].append(dates_interval['min'])
+dates_interval['dates'].append(dates_interval['max'])
+for i in range(1, n_intervals):
+    dates_interval['dates'].append(_toisoformat(_fromisoformat(dates_interval['min']) + i * delta / n_intervals))
+dates_interval['dates'].sort()
+
+results_interval = []
+for k in data_obj:
+    items = data_obj[k]
+    it = {
+        "name": items[0]['choice_abbreviation'],
+        "color": items[0]['color_color'],
+        "data": []
+    }
+    for d in dates_interval['dates']:
+        value = 0
+        w = 0
+        for it2 in items:
+            if it2['poll_end_date'] <= d:
+                delta = _fromisoformat(d) - _fromisoformat(it2['poll_end_date'])
+                w += float(it2['pollster_score']) * (1 / 2) ** (delta.days / 30)
+                value += (1 / 2) ** (delta.days / 30) * float(it2['value']) * float(it2['pollster_score'])
+        # print(i, w)
+        try:
+            v = value / w
+        except Exception:
+            v = ''
+        it['data'].append(v)
+    results_interval.append(it)
+
+
+# dates = _ma_dates()
+
+
+# Insert into db
 # hack, see also https://stackoverflow.com/questions/418898/sqlite-upsert-not-insert-or-replace#4330694
-def insert_or_replace(name, keys):
+def _insert_or_replace(name, keys):
     li = ['?'] * len(keys)
     return "INSERT OR REPLACE INTO " + name + "(" + ','.join(keys) + ") VALUES (" + ','.join(li) + ");"
 
@@ -84,7 +140,7 @@ for result in results:
     for k in keys:
         items.append(result[k])
     try:
-        curs.execute(insert_or_replace('last_term_moving_averages', keys), items)
+        curs.execute(_insert_or_replace('last_term_moving_averages', keys), items)
     except Exception:
         nothing = None
 conn.commit()
@@ -195,6 +251,15 @@ for row in rows:
 for op in ordered_parties:
     data['choices'].append(parties[op])
     data['moving_averages'].append(moving_averages[op])
+
+ordered_results_interval = []
+for op in ordered_parties:
+    for item in results_interval:
+        if op == item['name']:
+            ordered_results_interval.append(item)
+            break
+data['moving_averages_' + str(interval)] = ordered_results_interval
+data['dates_' + str(interval)] = dates_interval['dates']
 
 with open(path + settings['app_data_path'] + 'last_term_moving_averages.json', 'w') as fin:
     json.dump(data, fin)
