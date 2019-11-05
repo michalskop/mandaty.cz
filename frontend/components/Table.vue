@@ -106,7 +106,7 @@
             },
             color: function (c) {
                 if (!c) {
-                    return "color:#000000;"
+                    return "color:#888;"
                 } else {
                     return "color:" + c + ";"
                 }
