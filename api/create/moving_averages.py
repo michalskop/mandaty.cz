@@ -263,5 +263,7 @@ data['dates_' + str(interval)] = dates_interval['dates']
 
 with open(path + settings['app_data_path'] + 'last_term_moving_averages.json', 'w') as fin:
     json.dump(data, fin)
+with open(path + settings['app_data_path_2'] + 'last_term_moving_averages.json', 'w') as fin:
+    json.dump(data, fin)
 
 conn.close()

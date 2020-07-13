@@ -28,6 +28,8 @@ for row in rows:
 
 with open(path + settings['app_data_path'] + "last_term_data.json", "w") as fout:
     json.dump(data, fout)
+with open(path + settings['app_data_path_2'] + "last_term_data.json", "w") as fout:
+    json.dump(data, fout)
 
 # last term polls
 data = {'rows': []}
@@ -45,4 +47,6 @@ for row in rows:
     data['rows'].append(item)
 
 with open(path + settings['app_data_path'] + "last_term_polls.json", "w") as fout:
+    json.dump(data, fout)
+with open(path + settings['app_data_path_2'] + "last_term_polls.json", "w") as fout:
     json.dump(data, fout)
