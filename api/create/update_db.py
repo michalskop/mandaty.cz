@@ -17,14 +17,24 @@ curs = conn.cursor()
 
 
 def _insert(name, keys):
-    li = ['?'] * len(keys)
-    return "INSERT INTO " + name + "(" + ','.join(keys) + ") VALUES (" + ','.join(li) + ");"
+    nkeys = []
+    for key in keys:
+        if key.strip() != '':
+            nkeys.append(key)
+    if name == 'polls':
+        print(nkeys)
+    li = ['?'] * len(nkeys)
+    return "INSERT INTO " + name + "(" + ','.join(nkeys) + ") VALUES (" + ','.join(li) + ");"
 
 
 for source in settings['sources']:
     with closing(requests.get(source['url'], stream=True)) as r:
         dr = csv.DictReader(codecs.iterdecode(r.iter_lines(), 'utf-8'))
         for row in dr:
+            if source['name'] == 'polls':
+                print(row)
+                xrow = row
+                xsource = source
             data = []
             keys = []
             for k in row:
@@ -37,17 +47,30 @@ for source in settings['sources']:
                         keys.append(k.replace(':', '_'))
                     else:
                         keys.append(k)
+                if source['name'] == 'polls':
+                    xkeys = keys
+                    xdata = data
             try:
                 curs.execute(_insert(source['name'], keys), data)
-            except Exception:
-                # print(e)
-                # print(source['name'], data)
+            except Exception as e:
+                # if source['name'] == 'polls': 
+                #     print(e)
+                #     print(source['name'], data)
+                #     break
                 nothing = None
 
 conn.commit()
 conn.close()
 
 # query ="UPDATE polls SET end_date='2018-05-24' WHERE end_date='2018-05'"
+
+# query = "UPDATE last_term_data SET color='#000000' WHERE 
+
+# conn = sqlite3.connect(settings['path'] + settings['db_path'] + "data.sqlite")
+# curs = conn.cursor()
+# query = "SELECT * FROM last_term_data WHERE poll_identifier='2021-01'"
+# query = "UPDATE choices SET abbreviation='SPOLU' WHERE id='SPOLU';"
 # curs.execute(query)
+# #d = curs.fetchall()
 # conn.commit()
 # conn.close()

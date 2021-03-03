@@ -20,7 +20,10 @@ with open(path + "seats/mandaty.csv", "w") as fout:
     dw.writeheader()
     for r in mas['moving_averages']:
         party = r['name']
-        row = mandates[party]
-        if r['data'][-1] != '':
-            row['gain'] = r['data'][-1]
-        dw.writerow(row)
+        if party in mandates.keys():
+            row = mandates[party]
+            if r['data'][-1] != '':
+                row['gain'] = r['data'][-1]
+            dw.writerow(row)
+        else:
+            print(party)

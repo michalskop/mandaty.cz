@@ -22,7 +22,7 @@ lastseats = "psp2017_seats.csv"
 coalitionsinfile = "coalitions.csv"
 coalitionsoutfile = "current_coalitions.json"
 n = 770
-runs = 10000
+runs = 100
 
 
 def dhondt(parties, seats):
