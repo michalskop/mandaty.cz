@@ -10,7 +10,7 @@ import pandas as pd
 import scipy.stats
 import operator
 
-path = "/home/michal/project/mandaty.cz/dev/v2021/"
+path = "/home/michal/project/mandaty.cz/seats/"
 
 datestring = datetime.datetime.today().strftime('%Y-%m-%d')
 
