@@ -62,7 +62,9 @@ def _toisoformat(s):
 
 results = []
 for k in data_obj:
+    # print(k)
     items = data_obj[k]
+    # print(items[0])
     for i, it in enumerate(items):
         value = 0
         w = 0
@@ -75,6 +77,7 @@ for k in data_obj:
         res = it
         res['value'] = value / w
         results.append(res)
+    # print(len(results))
 
 
 # def _ma_dates(interval=30):
@@ -105,6 +108,7 @@ for k in data_obj:
     items = data_obj[k]
     it = {
         "name": items[0]['choice_abbreviation'],
+        "id": items[0]['choice_id'],
         "color": items[0]['color_color'],
         "data": []
     }
@@ -255,7 +259,7 @@ for op in ordered_parties:
 ordered_results_interval = []
 for op in ordered_parties:
     for item in results_interval:
-        if op == item['name']:
+        if op == item['id']:
             ordered_results_interval.append(item)
             break
 data['moving_averages_' + str(interval)] = ordered_results_interval
