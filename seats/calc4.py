@@ -40,13 +40,23 @@ def imperiali(sample):
         region = regional_sample[regional_sample['region_code'] == rc].reset_index()
 
         s = region.sum()['estimated_votes']
-        rs = (regions_seats[regions_seats['region_code'] == rc]['seats']).iloc[0]
-        N = round(s / (rs + 2))
+        rs = (regions_seats[regions_seats['region_code'] == rc]['seats']).iloc[0] # §48 (2)
+        N = round(s / (rs + 2)) # krajske volebni cislo §50 (2)
 
         overs = region[region['value'] > region['needs']]
-        overs.loc[:, ('nof_seats')] = (overs.loc[:, ('estimated_votes')].divide(N)).apply(math.floor)
-        overs.loc[:, ('rest')] = overs['estimated_votes'] - overs['nof_seats'] * N
-        overs.loc[:, ('rest_rank')] = overs['rest'].rank()
+        overs.loc[:, ('nof_seats')] = (overs.loc[:, ('estimated_votes')].divide(N)).apply(math.floor) # počty mandátů §50 (3)
+        overs.loc[:, ('rest')] = overs['estimated_votes'] - overs['nof_seats'] * N  # zbytky §50 (4)
+        overs.loc[:, ('rest_rank')] = overs['rest'].rank()# pořadí zbytků §50 (4)
+
+        # correction §50 (4)
+        overseats = overs['nof_seats'].sum() - rs
+        if overseats > 0:
+            print(rc, overseats)
+            ioverseats = overs.index[overs['rest_rank'] <= overseats]
+            for i in ioverseats:
+                overs['nof_seats'][i] -= 1
+                overs['rest'][i] = overs['estimated_votes'][i] - overs['nof_seats'][i] * N
+
 
         regional_seats = regional_seats.append(overs.loc[:, ['party_code', 'region_code', 'nof_seats', 'rest']], ignore_index=True)
 
@@ -148,6 +158,7 @@ stats['seats'] = seats.transpose().fillna(0)
 stats['name'] = current_poll['name']
 stats['color'] = current_poll['color']
 stats['gain'] = current_poll['gain']
+stats['in'] = (parties > 0).sum() / runs
 
 stats = stats.sort_values(['seats', 'hi', 'gain'], ascending=[False, False, False])
 
