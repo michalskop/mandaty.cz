@@ -14,7 +14,7 @@ conn = sqlite3.connect(settings['path'] + settings['db_path'] + "data.sqlite")
 curs = conn.cursor()
 
 # prepare data
-query = "SELECT * FROM last_term_data"
+query = "SELECT * FROM last_term_data WHERE CAST(pollster_score as FLOAT) > 0"
 curs.execute(query)
 conn.commit()
 keys = list(map(lambda x: x[0], curs.description))
@@ -133,6 +133,12 @@ for k in data_obj:
 
 
 # Insert into db
+
+# query = "DELETE FROM last_term_moving_averages"
+# curs.execute(query)
+# conn.commit()
+
+
 # hack, see also https://stackoverflow.com/questions/418898/sqlite-upsert-not-insert-or-replace#4330694
 def _insert_or_replace(name, keys):
     li = ['?'] * len(keys)
@@ -235,7 +241,7 @@ for row in rows:
     i = polls[row[k2c['pollster_id']] + row[k2c['poll_identifier']]]
     moving_averages[row[k2c['choice_id']]]['data'][i] = row[k2c['value']]
 
-query = 'SELECT * FROM last_term_data;'
+query = 'SELECT * FROM last_term_data WHERE CAST(pollster_score as FLOAT) > 0;'
 curs.execute(query)
 conn.commit()
 keys = list(map(lambda x: x[0], curs.description))
@@ -252,12 +258,40 @@ for row in rows:
     except Exception:
         nothing = None
 
+# reorder parties:
+bestx = []
+stepx = 3
 for op in ordered_parties:
+    if len(moving_averages[op]['data']) > stepx:
+        arr = []
+        for x in range(-3, 0):
+            if moving_averages[op]['data'][x] == '':
+                arr.append(0)
+            else:
+                arr.append(moving_averages[op]['data'][x])
+        mx = max(arr) 
+    else:
+        if moving_averages[op]['data'][-1] == '':
+            mx = 0
+        else:
+            mx = moving_averages[op]['data'][-1]
+    bestx.append(
+        {
+            'party': op,
+            'max': mx
+        }
+    )
+bestxord = sorted(bestx, key=lambda k: k['max']) 
+reordered_parties = []
+for it in bestxord:
+    reordered_parties.append(it['party']) 
+
+for op in reordered_parties:
     data['choices'].append(parties[op])
     data['moving_averages'].append(moving_averages[op])
 
 ordered_results_interval = []
-for op in ordered_parties:
+for op in reordered_parties:
     for item in results_interval:
         if op == item['id']:
             ordered_results_interval.append(item)
