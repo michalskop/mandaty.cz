@@ -13,7 +13,7 @@ curs = conn.cursor()
 
 # last term data
 data = {'rows': []}
-query = "SELECT * FROM last_term_data"
+query = "SELECT * FROM last_term_data WHERE CAST(pollster_score as FLOAT) > 0"
 curs.execute(query)
 conn.commit()
 keys = list(map(lambda x: x[0], curs.description))
@@ -33,7 +33,7 @@ with open(path + settings['app_data_path_2'] + "last_term_data.json", "w") as fo
 
 # last term polls
 data = {'rows': []}
-query = "SELECT * FROM last_term_polls"
+query = "SELECT * FROM last_term_polls WHERE CAST(pollster_score as FLOAT) > 0"
 curs.execute(query)
 conn.commit()
 keys = list(map(lambda x: x[0], curs.description))

@@ -3,7 +3,8 @@
 import sqlite3
 import yaml
 
-path = "/home/michal/project/pollster.eu/dev/datasette/create/"
+# path = "/home/michal/project/pollster.eu/dev/datasette/create/"
+path = "/home/michal/project/mandaty.cz/api/create/"
 
 settings = yaml.safe_load(open(path + "settings.yaml"))
 
@@ -14,9 +15,9 @@ curs = conn.cursor()
 # curs.execute(query)
 
 query = '''
-    CREATE VIEW IF NOT EXISTS last_term_polls(pollster_id, pollster_name, pollster_abbreviation, pollster_link, poll_identifier, poll_link, poll_start_date, poll_end_date, poll_published_date, poll_population, poll_sponsor, poll_method, poll_n, poll_area, question_open, question_question, question_n)
+    CREATE VIEW IF NOT EXISTS last_term_polls(pollster_id, pollster_name, pollster_abbreviation, pollster_link, pollster_score, poll_identifier, poll_link, poll_start_date, poll_end_date, poll_published_date, poll_population, poll_sponsor, poll_method, poll_n, poll_area, question_open, question_question, question_n)
     AS
-    SELECT p.id as pollster_id, p.name as pollster_name, p.abbreviation as pollster_abbreviation, p.link as pollster_link,
+    SELECT p.id as pollster_id, p.name as pollster_name, p.abbreviation as pollster_abbreviation, p.link as pollster_link, p.score as pollster_score,
     po.identifier as poll_identifier, po.link as poll_link, po.start_date as poll_start_date, po.end_date as poll_end_date, po.published_date as poll_published_date, po.population as poll_population, po.sponsor as poll_sponsor, po.method as poll_method, po.n as poll_n, po.area as poll_area,
     q.open as question_open, q.question as question_question, q.n as question_n
     FROM questions as q
@@ -35,6 +36,14 @@ rows = curs.fetchall()
 
 for row in rows:
     print(row)
+
+# query = "SELECT * FROM last_term_polls"
+# curs.execute(query)
+# conn.commit()
+# rows = curs.fetchall()
+
+# for row in rows:
+#     print(row)
 
 # query = 'DROP VIEW last_term_data;'
 # curs.execute(query)
