@@ -50,3 +50,11 @@ with open(path + settings['app_data_path'] + "last_term_polls.json", "w") as fou
     json.dump(data, fout)
 with open(path + settings['app_data_path_2'] + "last_term_polls.json", "w") as fout:
     json.dump(data, fout)
+
+
+# query = "SELECT * FROM polls WHERE identifier='2021-08'"
+# curs.execute(query)
+# conn.commit()
+# rows = curs.fetchall()
+# for row in rows:
+#   print(row)
