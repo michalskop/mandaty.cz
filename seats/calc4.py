@@ -17,6 +17,7 @@ path = "/home/michal/project/mandaty.cz/seats/"
 datestring = datetime.datetime.today().strftime('%Y-%m-%d')
 
 inputfile = "mandaty.csv"
+inputfile = "mandaty_test.csv"
 # inputfile = "vysledky_voleb_2017.csv"
 outputfile = "stats.json"
 outputrichfile = "current_seats.json"
