@@ -54,14 +54,16 @@ parties = pt[(~pt['choice:id'].isin(excludes)) & (pt['value'] > exclude_limit)][
 data_filtered = data[data['choice:id'].isin(parties)]
 
 # calculate poll weights
-dfpolls_filtered = dfpolls[dfpolls['middle_date'].astype(str) > since]
+dfpolls_filtered = dfpolls[(dfpolls['middle_date'].astype(str) > since) & ~(dfpolls['pollster:id'].isin(exclude_pollsters))]
 dfpolls_filtered['middle_date_date'] = dfpolls_filtered['middle_date'].apply(datetime.date.fromisoformat)
-dfpolls_filtered['weight'] = (1 / 2) ** (abs(today - dfpolls_filtered['middle_date_date']).apply(datetime.timedelta.total_seconds) / 60 / 60 / 24 / 30)
+
+pw = 1 / dfpolls_filtered.groupby('pollster:id')['identifier'].count()
+dfpolls_filtered = dfpolls_filtered.merge(pw, how='left', left_on='pollster:id', right_on='pollster:id').rename(columns={'identifier_y': 'pollster_weight', 'identifier_x': 'identifier'})
+
+dfpolls_filtered['weight'] = (1 / 2) ** (abs(today - dfpolls_filtered['middle_date_date']).apply(datetime.timedelta.total_seconds) / 60 / 60 / 24 / 30) * dfpolls_filtered['pollster_weight']
 
 dfpolls_filtered.groupby('pollster:id').count()
 pd.pivot_table(dfpolls_filtered, index='pollster:id', values='weight')
-
-sum(dfpolls_filtered['middle_date'] != '')
 
 # calculate moving averages
 moving_averages = pd.DataFrame(columns=['middle_date', 'middle_date_date', 'choice:id', 'value'])
