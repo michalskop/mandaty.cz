@@ -3,9 +3,9 @@
 # Pandas >= 1.2
 
 import datetime
-import functools
+# import functools
 import gspread
-import locale
+# import locale
 import numpy as np
 import pandas as pd
 
@@ -14,6 +14,7 @@ gc = gspread.service_account()
 # Pollster CZ
 # parameters
 sheetkey = "1a9zd3ThneSR7JN7-wj4uw5hBBggY9NyguFYIb4jbAc0"
+# sheetkey = "1UBu8pM1Yfwm1ovyzK_52p1CFiLzGoTJRzooCfJEID-A"
 # since = '2017-11-01'
 since = '2021-01-01'
 exclude_limit = 0.02
