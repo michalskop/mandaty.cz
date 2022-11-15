@@ -1,6 +1,6 @@
 # Mandáty.cz
 
-**This project is obsolete. The new project is here: https://github.com/michalskop/mandaty-2022/**
+**This project is abandoned. The new project is here: https://github.com/michalskop/mandaty-2022/**
 
 Project for web application Mandáty.cz
 
