@@ -15,8 +15,8 @@
   "dependencies": {
     "bootstrap": "^4.3.1",
     "ify-loader": "^1.1.0",
-    "nuxt": "^1.0.0",
-    "plotly.js": "^1.38.0",
+    "nuxt": "^3.2.2",
+    "plotly.js": "^1.58.5",
     "plotly.js-locales": "^1.49.0"
   },
   "devDependencies": {
